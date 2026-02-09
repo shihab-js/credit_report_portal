@@ -1,0 +1,70 @@
+{% extends 'reports/base.html' %}
+{% block content %}
+
+<div class="card mb-4">
+    <div class="card-header">
+        Credit Report Details – {{ report.lc_number }}
+    </div>
+    <div class="card-body">
+
+        <!-- Two-column details -->
+        <div class="row mb-3">
+            <div class="col-md-6">
+                <p><strong>Client Name:</strong> {{ report.client_name }}</p>
+                <p><strong>Beneficiary Name:</strong> {{ report.beneficiary_name }}</p>
+                <p><strong>Beneficiary Address:</strong><br>{{ report.beneficiary_address }}</p>
+                <p><strong>Beneficiary Country:</strong><br>{{ report.beneficiary_country }}</p>
+                <p><strong>Vendor Name:</strong> {{ report.vendor_name }}</p>
+            </div>
+
+            <div class="col-md-6">
+                <p><strong>LC Number:</strong> {{ report.lc_number }}</p>
+                <p><strong>Expiry Date:</strong> {{ report.expiry_date }}</p>
+                <p><strong>Credit Risk:</strong> {{ report.credit_risk }}</p>
+                <p><strong>Related Party:</strong> {{ report.related_party }}</p>
+                <p><strong>Line of Business:</strong> {{ report.line_of_business }}</p>
+            </div>
+        </div>
+
+        <hr>
+
+        <!-- Entry info -->
+        <p>
+            <strong>Entry Date:</strong> {{ report.entry_date|date:"Y-m-d H:i" }}<br>
+            <strong>Entry By:</strong> {{ report.entry_by.username }}
+        </p>
+
+        <hr>
+
+        <!-- Document preview -->
+        <h6>Attached Document</h6>
+
+        {% if report.document.url|lower|slice:"-4:" == ".pdf" %}
+            <iframe
+                src="{{ report.document.url }}"
+                width="100%"
+                height="600"
+                style="border:1px solid #ccc;"
+                type="application/pdf"
+            >
+                Your browser does not support PDFs.
+                <a href="{{ report.document.url }}" target="_blank">Download / Open PDF</a>
+            </iframe>
+        {% else %}
+            <img src="{{ report.document.url }}" class="img-fluid" alt="Attached Document">
+        {% endif %}
+
+        <!-- Actions -->
+        <div class="mt-3">
+            <a href="{{ report.document.url }}" target="_blank" class="btn btn-outline-primary">
+                Download Document
+            </a>
+            <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+                Back to Dashboard
+            </a>
+        </div>
+
+    </div>
+</div>
+
+{% endblock %}

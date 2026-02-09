@@ -1,0 +1,57 @@
+{% extends 'reports/base.html' %}
+{% block content %}
+
+<div class="row justify-content-center">
+  <div class="col-md-8">
+    <div class="card">
+      <div class="card-header">Request Credit Report</div>
+      <div class="card-body">
+
+        <form method="post" enctype="multipart/form-data">
+          {% csrf_token %}
+
+          <div class="mb-3">
+            <label>LC Number</label>
+            <input type="text" name="lc_number" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Client Name</label>
+            <input type="text" name="client_name" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Beneficiary Name</label>
+            <input type="text" name="beneficiary_name" class="form-control" required>
+          </div>
+
+          <div class="mb-3">
+            <label>Beneficiary Address</label>
+            <textarea name="beneficiary_address" class="form-control" rows="2" required></textarea>
+          </div>
+
+          <div class="mb-3">
+            <label>Beneficiary Country</label>
+            <textarea name="beneficiary_country" class="form-control" rows="2" required></textarea>
+          </div>
+
+            <div class="col-md-6 mb-3">
+              <label>Related Party</label>
+              <input type="text" name="related_party" class="form-control">
+            </div>
+
+            <div class="col-md-6 mb-3">
+              <label>Vendor Name</label>
+              <input type="text" name="vendor_name" class="form-control">
+            </div>
+
+
+          <button class="btn btn-primary w-100">Submit</button>
+        </form>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+{% endblock %}

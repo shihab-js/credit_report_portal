@@ -1,0 +1,151 @@
+{% extends 'reports/base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    /* Login container */
+    .login-wrapper {
+        min-height: 70vh;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        animation: fadeInUp 0.8s ease;
+    }
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(20px);
+        }
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    /* Dark mode */
+    .dark-mode {
+        background-color: #0F3460;
+        color: #ffffff;
+
+    }
+
+    .dark-mode .card {
+        background-color: #2b2b3c;
+        color: #ffffff;
+    }
+
+    .dark-mode input {
+        background-color: #3a3a4f;
+        color: #ffffff;
+        border: 1px solid #555;
+    }
+
+    .toggle-dark {
+        cursor: pointer;
+        font-size: 14px;
+    }
+</style>
+
+<div class="login-wrapper">
+    <div class="col-md-4 col-sm-10">
+
+        <div class="card shadow-lg" id="loginCard">
+            <div class="card-header text-center">
+                <!-- Bank Logo -->
+                <img
+                    src="{% static 'images/bank_asia_logo.png' %}"
+                    alt="Bank Asia"
+                    style="height:50px;"
+                    class="mb-2"
+                >
+                <h5 class="mb-0">User Login</h5>
+            </div>
+
+            <div class="card-body">
+
+                {% if form.errors %}
+                    <div class="alert alert-danger">
+                        Invalid username or password.
+                    </div>
+                {% endif %}
+
+                <form method="post">
+                    {% csrf_token %}
+
+                    <!-- Username -->
+                    <div class="mb-3">
+                        <label class="form-label">Username</label>
+                        <input
+                            type="text"
+                            name="username"
+                            class="form-control"
+                            placeholder="Enter your username"
+                            required
+                        >
+                    </div>
+
+                    <!-- Password with toggle -->
+                    <div class="mb-3">
+                        <label class="form-label">Password</label>
+                        <div class="input-group">
+                            <input
+                                type="password"
+                                name="password"
+                                id="passwordField"
+                                class="form-control"
+                                placeholder="Enter your password"
+                                required
+                            >
+                            <span class="input-group-text" onclick="togglePassword()" style="cursor:pointer;">
+                                👁
+                            </span>
+                        </div>
+                    </div>
+
+                    <!-- Forgot password -->
+                    <div class="mb-3 text-end">
+                        <a href="{% url 'password_reset' %}" class="small">
+                            Forgot password?
+                        </a>
+                    </div>
+
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">
+                            Login
+                        </button>
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="card-footer text-center">
+                <span class="toggle-dark" id="themeToggle" onclick="toggleDarkMode()">
+                    🌙 Dark Mode
+                </span>
+            </div>
+        </div>
+
+    </div>
+</div>
+
+<script>
+    function togglePassword() {
+        const pwd = document.getElementById("passwordField");
+        pwd.type = pwd.type === "password" ? "text" : "password";
+    }
+
+    function toggleDarkMode() {
+        const card = document.getElementById("loginCard");
+        const toggle = document.getElementById("themeToggle");
+
+        const isDark = card.classList.toggle("dark-mode");
+
+        if (isDark) {
+            toggle.innerHTML = "☀️ Light Mode";
+        } else {
+            toggle.innerHTML = "🌙 Dark Mode";
+        }
+    }
+</script>
+{% endblock %}

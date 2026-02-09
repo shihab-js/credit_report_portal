@@ -1,0 +1,71 @@
+{% extends 'reports/base.html' %}
+{% block content %}
+
+<div class="card">
+    <div class="card-header">Search Credit Reports</div>
+    <div class="card-body">
+
+        <form method="get" class="row g-2 mb-4">
+            <div class="col-md-10">
+                <input
+                    type="text"
+                    name="q"
+                    value="{{ request.GET.q }}"
+                    class="form-control"
+                    placeholder="Search by LC Number, Client Name, Vendor"
+                >
+            </div>
+            <div class="col-md-2">
+                <button class="btn btn-primary w-100">Search</button>
+            </div>
+        </form>
+
+        <table class="table table-bordered table-hover">
+            <thead class="table-light">
+                <tr>
+                    <th>Beneficiary Name</th>
+                    <th>Address</th>
+                    <th>Country</th>
+                    <th>Line of Business</th>
+                    <th>Credit Rating</th>
+                    <th>Provider</th>
+                    <th>Expiry Date</th>
+                    <th>Client Name</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for r in reports %}
+                <tr>
+                    <td>{{ r.beneficiary_name }}</td>
+                    <td>{{ r.beneficiary_address }}</td>
+                    <td>{{ r.beneficiary_country }}</td>
+                    <td>{{ r.line_of_business }}</td>
+                    <td>{{ r.credit_risk }}</td>
+                    <td>{{ r.vendor_name }}</td>
+                    <td>{{ r.entry_date|date:"Y-m-d" }}</td>
+                    <td>{{ r.client_name }}</td>
+                    <td>
+                        <a href="{% url 'view_report' r.id %}" class="btn btn-sm btn-primary">
+                            View
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="9" class="text-center text-muted">
+                        No matching records found
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+
+        <a href="{% url 'dashboard' %}" class="btn btn-secondary">
+            ← Back to Dashboard
+        </a>
+
+    </div>
+</div>
+
+{% endblock %}
