@@ -2,7 +2,8 @@ from django.contrib import admin
 
 # Register your models here.
 from django.contrib import admin
-from .models import CreditReport, RequestedReport
+from .models import CreditReport, RequestedReport, Vendor
 
 admin.site.register(CreditReport)
 admin.site.register(RequestedReport)
+admin.site.register(Vendor)

@@ -1,68 +1,111 @@
-
 {% extends 'reports/base.html' %}
 {% block content %}
 
-<div class="card mb-4">
-    <div class="card-header">Credit Report Dashboard</div>
-    <div class="card-body">
-
-        <div class="d-flex justify-content-between mb-3">
-            <form method="get" action="{% url 'search_report' %}" class="d-flex w-50">
-                <input
-                    type="text"
-                    name="q"
-                    class="form-control me-2"
-                    placeholder="Search by Beneficiary Name"
-                >
-                <button class="btn btn-primary">Search</button>
-            </form>
-            
+<div class="container-fluid">
+    <div class="row mb-4">
+        <!-- Total Reports -->
+        <div class="col-md-3">
+            <div class="card text-white bg-primary">
+                <div class="card-body">
+                    <h5 class="card-title">Total Reports</h5>
+                    <p class="card-text display-6">{{ report_count }}</p>
+                </div>
+            </div>
         </div>
 
-        <table class="table table-bordered table-hover table-sm">
-            <thead class="table-light">
-                <tr>
-                    <th>Beneficiary Name</th>
-                    <th>Address</th>
-                    <th>Country</th>
-                    <th>Line of Business</th>
-                    <th>Credit Rating</th>
-                    <th>Provider</th>
-                    <th>Expiry Date</th>
-                    <th>Client Name</th>
-                    <th>Action</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for r in reports %}
-                <tr>
+        <!-- Total Valid Items -->
+        <div class="col-md-3">
+            <div class="card text-white bg-success">
+                <div class="card-body">
+                    <h5 class="card-title">Total Valid Items</h5>
+                    <p class="card-text display-6">{{ valid_count }}</p>
+                </div>
+            </div>
+        </div>
 
-                    <td>{{ r.beneficiary_name }}</td>
-                    <td>{{ r.beneficiary_address }}</td>
-                    <td>{{ r.beneficiary_country }}</td>
-                    <td>{{ r.line_of_business }}</td>
-                    <td>{{ r.credit_risk }}</td>
-                    <td>{{ r.vendor_name }}</td>
-                    <td>{{ r.entry_date|date:"Y-m-d" }}</td>
-                    <td>{{ r.client_name }}</td>
-                    <td>
-                        <a href="{% url 'view_report' r.id %}" class="btn btn-sm btn-primary">
-                            View
-                        </a>
+        <!-- Total Vendors -->
+        <div class="col-md-3">
+            <div class="card text-white bg-warning">
+                <div class="card-body">
+                    <h5 class="card-title">Total Vendors</h5>
+                    <p class="card-text display-6">{{ vendor_count }}</p>
+                </div>
+            </div>
+        </div>
 
-                    </td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="6" class="text-center text-muted">
-                        No credit reports found
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-
+        <!-- Expired Reports -->
+        <div class="col-md-3">
+            <div class="card text-white bg-danger">
+                <div class="card-body">
+                    <h5 class="card-title">Expired Reports</h5>
+                    <p class="card-text display-6">{{ expired_count }}</p>
+                </div>
+            </div>
+        </div>
     </div>
+</div>
+
+    <!-- Reports Table -->
+    <div class="card mb-4">
+        <div class="card-header">Credit Report Dashboard</div>
+        <div class="card-body">
+
+            <div class="d-flex justify-content-between mb-3">
+                <form method="get" action="{% url 'search_report' %}" class="d-flex w-50">
+                    <input
+                        type="text"
+                        name="q"
+                        class="form-control me-2"
+                        placeholder="Search by Beneficiary Name"
+                    >
+                    <button class="btn btn-primary">Search</button>
+                </form>
+            </div>
+
+            <table class="table table-bordered table-hover table-sm">
+                <thead class="table-light">
+                    <tr>
+                        <th>Beneficiary Name</th>
+                        <th>Address</th>
+                        <th>Country</th>
+                        <th>Line of Business</th>
+                        <th>Credit Rating</th>
+                        <th>Provider</th>
+                        <th>Expiry Date</th>
+                        <th>Client Name</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for r in reports %}
+                    <tr>
+                        <td>{{ r.beneficiary_name }}</td>
+                        <td>{{ r.beneficiary_address }}</td>
+                        <td>{{ r.beneficiary_country }}</td>
+                        <td>{{ r.line_of_business }}</td>
+                        <td>{{ r.credit_risk }}</td>
+                        <td>{{ r.vendor_name }}</td>
+                        <td>{{ r.expiry_date|date:"Y-m-d" }}</td>
+                        <td>{{ r.client_name }}</td>
+                        <td>
+                            <a href="{% url 'view_report' r.id %}" class="btn btn-sm btn-primary">
+                                View
+                            </a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr>
+                        <td colspan="9" class="text-center text-muted">
+                            No credit reports found
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+
+        </div>
+    </div>
+
 </div>
 
 {% endblock %}

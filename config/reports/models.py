@@ -1,6 +1,13 @@
 from django.db import models
 from django.contrib.auth.models import User
 
+
+class Vendor(models.Model):
+    name = models.CharField(max_length=255)
+
+    def __str__(self):
+        return self.name
+
 class CreditReport(models.Model):
     lc_number = models.CharField(max_length=100)
     client_name = models.CharField(max_length=255)
@@ -11,7 +18,8 @@ class CreditReport(models.Model):
     credit_risk = models.CharField(max_length=100)
     related_party = models.CharField(max_length=100)
     line_of_business = models.CharField(max_length=100)
-    vendor_name = models.CharField(max_length=255)
+    #vendor_name = models.CharField(max_length=255)
+    vendor_name = models.ForeignKey(Vendor, on_delete=models.CASCADE)
     entry_date = models.DateTimeField(auto_now_add=True)  # current date/time
     entry_by = models.ForeignKey(User, on_delete=models.SET_NULL, null=True)
 
