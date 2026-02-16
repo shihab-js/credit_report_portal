@@ -14,7 +14,7 @@ def dashboard(request):
     report_count = reports.count()
     vendor_count = reports.values('vendor_name').distinct().count()
     expired_count = reports.filter(expiry_date__lt=today).count()  # expired reports
-    valid_count = reports.filter(expiry_date__lt=today).count()  # valid items
+    valid_count = reports.filter(expiry_date__gte=today).count()  # valid items
 
     return render(request, 'reports/dashboard.html', {
         'reports': reports,
